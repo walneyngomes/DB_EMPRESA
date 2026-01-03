@@ -76,3 +76,15 @@ ON DP.NumeroPedido = PED.NumeroPedido
 WHERE DATEPART(MONTH,PED.DataEntrega) = 8 AND DATEPART(YEAR,PED.DataEntrega) = 1996
 group by  C.NomeCompleto ,  C.Contato ,CONCAT(DATEPART(YEAR,PED.DataEntrega),'-',DATEPART(MONTH,PED.DataEntrega))
  ) AS TB1
+
+
+select c.Descricao,DATEPART(YEAR,PED.DataPedido),sum(tpd.Quantidade*tpd.Preco) as total from TB_CATEGORIA AS C
+INNER JOIN TB_PRODUTO P
+ON p.CategoriaId = C.CategoriaId
+INNER JOIN TB_DETALHE_PEDIDO as tpd
+ON tpd.ProdutoId = p.ProdutoId
+INNER JOIN TB_PEDIDO PED
+ON PED.NumeroPedido = tpd.NumeroPedido
+where DATEPART(YEAR,PED.DataPedido) = 1996 
+group by c.Descricao, DATEPART(YEAR,PED.DataPedido)
+
